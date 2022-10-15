@@ -1,0 +1,7 @@
+{
+  "name": "doshle",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
