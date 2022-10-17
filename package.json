@@ -22,8 +22,6 @@
     "@capacitor/app": "4.0.1",
     "@capacitor/core": "4.3.0",
     "@capacitor/haptics": "4.0.1",
-    "@capacitor/keyboard": "4.0.1",
-    "@capacitor/status-bar": "4.0.1",
     "@ionic/angular": "^6.1.9",
     "daisyui": "^2.31.0",
     "ionicons": "^6.0.3",
