@@ -1,0 +1,52 @@
+<ion-content scrollY="false">
+  <div class="navbar bg-base-100 flex justify-between px-5">
+    <label for="modal-end-game" class="modal-button">
+      <ion-icon size="large" name="close-outline"></ion-icon>
+    </label>
+    <p class="text-3xl">Игра</p>
+    <label for="modal-about" class="modal-button">
+      <ion-icon size="large" name="settings-outline"></ion-icon>
+    </label>
+  </div>
+
+  <div class="bg-base-200 full-height">
+
+  </div>
+
+  <footer class="footer bg-neutral text-neutral-content p-3">
+    <div class="w-full">
+      <div class="flex justify-center gap-1 my-1 w-full">
+        <kbd *ngFor="let key of keyboard.firstRow" class="kbd kbd-md" [ngClass]="key.class">{{key.value}}</kbd>
+      </div>
+      <div class="flex justify-center gap-1 my-1 w-full">
+        <kbd *ngFor="let key of keyboard.secondRow" class="kbd kbd-md" [ngClass]="key.class">{{key.value}}</kbd>
+      </div>
+      <div class="flex justify-center gap-1 my-1 w-full">
+        <kbd *ngFor="let key of keyboard.thirdRow" class="kbd kbd-md" [ngClass]="key.class">{{key.value}}</kbd>
+      </div>
+      <div class="flex justify-center gap-1 my-1 w-full">
+        <kbd class="kbd kbd-md">
+          <ion-icon name="backspace-outline"></ion-icon>
+        </kbd>
+        <kbd *ngFor="let key of keyboard.fourthRow" class="kbd kbd-md" [ngClass]="key.class">{{key.value}}</kbd>
+        <kbd class="kbd kbd-md">
+          <ion-icon name="return-down-back-outline"></ion-icon>
+        </kbd>
+      </div>
+    </div>
+  </footer>
+
+  <input type="checkbox" id="modal-end-game" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box">
+      <h3 class="font-bold text-lg">Закрыть игру</h3>
+      <p class="pt-4">Вы уверены что хотите закрыть игру?</p>
+      <p class="pb-4">Ваш прогресс будет потерян!</p>
+      <div class="modal-action">
+        <label for="modal-end-game" class="btn">Отмена</label>
+        <button for="modal-end-game" class="btn" (click)="endGame()">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

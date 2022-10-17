@@ -2,7 +2,7 @@
 
   <div class="navbar bg-base-100 flex justify-between px-5">
     <p class="text-3xl">Дошле</p>
-    <label for="modal-about" class="btn btn-circle modal-button">
+    <label for="modal-about" class="modal-button">
       <ion-icon size="large" name="information-outline"></ion-icon>
     </label>
   </div>
@@ -13,11 +13,11 @@
         <h1 class="text-5xl font-bold">Начать игру</h1>
         <div class="flex items-center">
           <p class="py-6 mr-3">Ознакомится с правилами игры</p>
-          <label for="modal-faq" class="btn btn-circle">
+          <label for="modal-faq" class="btn btn-sm btn-outline">
             <ion-icon size="small" name="help-outline"></ion-icon>
           </label>
         </div>
-        <button class="btn btn-primary">Старт</button>
+        <button class="btn btn-primary" [routerLink]="['/game']">Старт</button>
       </div>
     </div>
   </div>
