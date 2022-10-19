@@ -11,6 +11,7 @@ export class GamePage implements OnInit {
   @ViewChild('rowIsNotFull') rowIsNotFull: ElementRef;
   @ViewChild('congratulations') congratulations: ElementRef;
 
+  @ViewChild('noSettings') noSettings: ElementRef;
   keyboard = {
     firstRow: [
       {
