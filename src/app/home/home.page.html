@@ -18,6 +18,17 @@
           </label>
         </div>
         <button class="btn btn-primary" [routerLink]="['/game']">Старт</button>
+        <div class="mt-10">
+          <select (change)="selectTheme($event.target.value)" class="select w-full max-w-xs">
+            <option disabled selected>Изменить тему игры</option>
+            <option value="coffee">Coffe</option>
+            <option value="lemonade">Lemonade</option>
+            <option value="night">Night</option>
+            <option value="valentine">Valentine</option>
+            <option value="aqua">Aqua</option>
+            <option value="cupcake">Cupcake</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>

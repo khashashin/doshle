@@ -93,37 +93,37 @@
   <div class="bg-base-200 full-height flex flex-col justify-center">
     <div class="flex justify-center">
       <div *ngFor="let letter of guesses.rowOne"
-        class="w-8 h-8 border-2 border-black rounded-md m-1 flex justify-center items-center cell"
+        class="w-8 h-8 border border-black rounded-md m-1 flex justify-center items-center cell"
         [ngClass]="letter.className">{{letter.value}}
       </div>
     </div>
     <div class="flex justify-center">
       <div *ngFor="let letter of guesses.rowTwo"
-        class="w-8 h-8 border-2 border-black rounded-md m-1 flex justify-center items-center cell"
+        class="w-8 h-8 border border-black rounded-md m-1 flex justify-center items-center cell"
         [ngClass]="letter.className">{{letter.value}}
       </div>
     </div>
     <div class="flex justify-center">
       <div *ngFor="let letter of guesses.rowThree"
-        class="w-8 h-8 border-2 border-black rounded-md m-1 flex justify-center items-center cell"
+        class="w-8 h-8 border border-black rounded-md m-1 flex justify-center items-center cell"
         [ngClass]="letter.className">{{letter.value}}
       </div>
     </div>
     <div class="flex justify-center">
       <div *ngFor="let letter of guesses.rowFour"
-        class="w-8 h-8 border-2 border-black rounded-md m-1 flex justify-center items-center cell"
+        class="w-8 h-8 border border-black rounded-md m-1 flex justify-center items-center cell"
         [ngClass]="letter.className">{{letter.value}}
       </div>
     </div>
     <div class="flex justify-center">
       <div *ngFor="let letter of guesses.rowFive"
-        class="w-8 h-8 border-2 border-black rounded-md m-1 flex justify-center items-center cell"
+        class="w-8 h-8 border border-black rounded-md m-1 flex justify-center items-center cell"
         [ngClass]="letter.className">{{letter.value}}
       </div>
     </div>
     <div class="flex justify-center">
       <div *ngFor="let letter of guesses.rowSix"
-        class="w-8 h-8 border-2 border-black rounded-md m-1 flex justify-center items-center cell"
+        class="w-8 h-8 border border-black rounded-md m-1 flex justify-center items-center cell"
         [ngClass]="letter.className">{{letter.value}}
       </div>
     </div>
@@ -136,23 +136,23 @@
 
   <footer class="footer bg-neutral text-neutral-content p-3">
     <div class="w-full">
-      <div class="flex justify-center gap-1 my-1 w-full">
-        <kbd *ngFor="let key of keyboard.firstRow; let i=index" class="kbd kbd-md" [ngClass]="key.class"
+      <div class="flex justify-center gap-1 my-0.5 w-full">
+        <kbd *ngFor="let key of keyboard.firstRow; let i=index" class="kbd kbd-md"
           (click)="keyClicked(keyboard.firstRow, i)">{{key.value}}</kbd>
       </div>
-      <div class="flex justify-center gap-1 my-1 w-full">
-        <kbd *ngFor="let key of keyboard.secondRow; let i=index" class="kbd kbd-md" [ngClass]="key.class"
+      <div class="flex justify-center gap-1 my-0.5 w-full">
+        <kbd *ngFor="let key of keyboard.secondRow; let i=index" class="kbd kbd-md"
           (click)="keyClicked(keyboard.secondRow, i)">{{key.value}}</kbd>
       </div>
-      <div class="flex justify-center gap-1 my-1 w-full">
-        <kbd *ngFor="let key of keyboard.thirdRow; let i=index" class="kbd kbd-md" [ngClass]="key.class"
+      <div class="flex justify-center gap-1 my-0.5 w-full">
+        <kbd *ngFor="let key of keyboard.thirdRow; let i=index" class="kbd kbd-md"
           (click)="keyClicked(keyboard.thirdRow, i)">{{key.value}}</kbd>
       </div>
-      <div class="flex justify-center gap-1 my-1 w-full">
+      <div class="flex justify-center gap-1 my-0.5 w-full">
         <kbd class="kbd kbd-md" (click)="removeLetter()">
           <ion-icon name="backspace-outline"></ion-icon>
         </kbd>
-        <kbd *ngFor="let key of keyboard.fourthRow; let i=index" class="kbd kbd-md" [ngClass]="key.class"
+        <kbd *ngFor="let key of keyboard.fourthRow; let i=index" class="kbd kbd-md"
           (click)="keyClicked(keyboard.fourthRow, i)">{{key.value}}</kbd>
         <kbd class="kbd kbd-md" (click)="checkWord()">
           <ion-icon name="return-down-back-outline"></ion-icon>

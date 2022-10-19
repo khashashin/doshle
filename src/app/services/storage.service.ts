@@ -20,4 +20,8 @@ export class StorageService {
   public set(key: string, value: any) {
     this._storage?.set(key, value);
   }
+
+  public get(key: string) {
+    return this._storage?.get(key);
+  }
 }

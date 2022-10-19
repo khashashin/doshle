@@ -168,13 +168,13 @@ export class GamePage implements OnInit {
 
   words = [];
 
-  wrongLetterClass = 'btn-active btn-ghost';
-  wrongPositionClass = 'btn-active btn-primary';
+  wrongLetterClass = 'bg-gray-500';
+  wrongPositionClass = 'bg-orange-500';
   correctLetterClass = 'bg-green-800';
 
-  correctCellClass = 'correct';
-  incorrectCellClass = 'incorrect';
-  wrongCellClass = 'wrong';
+  correctCellClass = 'bg-green-800 border-green-800';
+  incorrectCellClass = 'bg-orange-500 border-orange-500';
+  wrongCellClass = 'bg-gray-500 border-gray-500';
 
   guesses = {
     rowOne: [],

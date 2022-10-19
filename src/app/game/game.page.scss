@@ -1,32 +1,12 @@
 footer {
-  height: 290px !important;
+  height: 270px !important;
 }
 
 .full-height {
-  min-height: calc(100% - 289px);
+  min-height: calc(100% - 269px);
 }
 
 .cell {
-  border: 1px solid #000;
   line-height: 50px;
   font-size: 20px;
-
-  &.correct {
-    background-color: #79b851 !important;
-    border-color: #79b851 !important;
-  }
-  &.incorrect {
-    background-color: #f3c237 !important;
-    border-color: #f3c237 !important;
-  }
-  &.wrong {
-    background-color: #a4aec4 !important;
-    border-color: #a4aec4 !important;
-  }
-
-  &.correct,
-  &.incorrect,
-  &.wrong {
-    color: #fff;
-  }
 }
