@@ -1,5 +1,14 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-game',
@@ -192,7 +201,12 @@ export class GamePage implements OnInit {
 
   isHelpUsed = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    @Inject(DOCUMENT) private document: Document,
+    private renderer: Renderer2,
+    private storageService: StorageService
+  ) {}
 
   async ngOnInit() {
     this.fetchWords();
@@ -202,7 +216,19 @@ export class GamePage implements OnInit {
     this.restoreDefaults();
     await this.generateWord();
 
-    console.log(this.currentWord);
+    this.storageService.get('theme').then(theme => {
+      if (theme) {
+        this.selectTheme(theme);
+      } else {
+        this.selectTheme('coffe');
+      }
+    });
+  }
+
+  selectTheme($e: any) {
+    const theme = $e.target ? $e.target.value : $e;
+    this.renderer.setAttribute(this.document.body, 'data-theme', theme);
+    this.storageService.set('theme', theme);
   }
 
   async keyClicked(row, index) {

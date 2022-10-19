@@ -137,22 +137,22 @@
   <footer class="footer bg-neutral text-neutral-content p-3">
     <div class="w-full">
       <div class="flex justify-center gap-1 my-0.5 w-full">
-        <kbd *ngFor="let key of keyboard.firstRow; let i=index" class="kbd kbd-md"
+        <kbd *ngFor="let key of keyboard.firstRow; let i=index" class="kbd kbd-md" [ngClass]="key.class"
           (click)="keyClicked(keyboard.firstRow, i)">{{key.value}}</kbd>
       </div>
       <div class="flex justify-center gap-1 my-0.5 w-full">
-        <kbd *ngFor="let key of keyboard.secondRow; let i=index" class="kbd kbd-md"
+        <kbd *ngFor="let key of keyboard.secondRow; let i=index" class="kbd kbd-md" [ngClass]="key.class"
           (click)="keyClicked(keyboard.secondRow, i)">{{key.value}}</kbd>
       </div>
       <div class="flex justify-center gap-1 my-0.5 w-full">
-        <kbd *ngFor="let key of keyboard.thirdRow; let i=index" class="kbd kbd-md"
+        <kbd *ngFor="let key of keyboard.thirdRow; let i=index" class="kbd kbd-md" [ngClass]="key.class"
           (click)="keyClicked(keyboard.thirdRow, i)">{{key.value}}</kbd>
       </div>
       <div class="flex justify-center gap-1 my-0.5 w-full">
         <kbd class="kbd kbd-md" (click)="removeLetter()">
           <ion-icon name="backspace-outline"></ion-icon>
         </kbd>
-        <kbd *ngFor="let key of keyboard.fourthRow; let i=index" class="kbd kbd-md"
+        <kbd *ngFor="let key of keyboard.fourthRow; let i=index" class="kbd kbd-md" [ngClass]="key.class"
           (click)="keyClicked(keyboard.fourthRow, i)">{{key.value}}</kbd>
         <kbd class="kbd kbd-md" (click)="checkWord()">
           <ion-icon name="return-down-back-outline"></ion-icon>
