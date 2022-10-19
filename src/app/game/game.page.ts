@@ -18,7 +18,7 @@ import { StorageService } from '../services/storage.service';
 export class GamePage implements OnInit {
   @ViewChild('noWordFound') noWordFound: ElementRef;
   @ViewChild('rowIsNotFull') rowIsNotFull: ElementRef;
-  @ViewChild('hintOnlyOnce') hintOnlyOnce: ElementRef;
+  @ViewChild('hintOnlyTwice') hintOnlyTwice: ElementRef;
   @ViewChild('noHintForLastRow') noHintForLastRow: ElementRef;
   @ViewChild('noSettings')
   noSettings: ElementRef;
@@ -176,6 +176,7 @@ export class GamePage implements OnInit {
   };
 
   words = [];
+  hintWords = [];
 
   wrongLetterClass = 'bg-gray-500';
   wrongPositionClass = 'bg-orange-500';
@@ -199,7 +200,7 @@ export class GamePage implements OnInit {
   currentGuessRow = 'rowOne';
   currentColumn = 0;
 
-  isHelpUsed = false;
+  isHelpUsed = 2;
 
   constructor(
     private router: Router,
@@ -297,8 +298,8 @@ export class GamePage implements OnInit {
   }
 
   async help() {
-    if (this.isHelpUsed) {
-      this.toggleAlert(this.hintOnlyOnce.nativeElement);
+    if (this.isHelpUsed === 0) {
+      this.toggleAlert(this.hintOnlyTwice.nativeElement);
       return;
     }
 
@@ -307,7 +308,7 @@ export class GamePage implements OnInit {
       return;
     }
 
-    this.isHelpUsed = true;
+    this.isHelpUsed -= 1;
 
     const hintWord = await this.getHintWord();
 
@@ -319,6 +320,7 @@ export class GamePage implements OnInit {
       }
       await this.completeGuessRow(hintWord);
       this.currentGuessRow = this.getNextGuessRow();
+      this.currentColumn = 0;
     }
   }
 
@@ -346,17 +348,20 @@ export class GamePage implements OnInit {
     const hintWord = this.words[randomIndex];
     if (
       hintWord === this.currentWord ||
-      hintWord.length !== this.currentWord.term.length
+      hintWord.length !== this.currentWord.term.length ||
+      this.hintWords.includes(hintWord)
     ) {
       return this.getHintWord();
     }
 
+    this.hintWords.push(hintWord);
     return hintWord;
   }
 
   private async restoreDefaults() {
+    this.hintWords = [];
     this.currentWordIndex = null;
-    this.isHelpUsed = false;
+    this.isHelpUsed = 2;
     this.currentGuessRow = 'rowOne';
     this.currentColumn = 0;
     this.guesses = {
