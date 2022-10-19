@@ -9,27 +9,92 @@
     </label>
   </div>
 
-  <div class="bg-base-200 full-height">
+  <div #rowIsNotFull class="toast toast-center toast-middle w-4/5 hidden">
+    <div class="alert alert-error shadow-lg">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Текущий ряд не заполнен до конца.</span>
+      </div>
+    </div>
+  </div>
 
+  <div #noWordFound class="toast toast-center toast-middle w-4/5 hidden">
+    <div class="alert alert-error shadow-lg">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Введенное вами слово не найдено.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-base-200 full-height flex flex-col justify-center">
+    <div class="flex justify-center">
+      <div *ngFor="let letter of guesses.rowOne"
+        class="w-8 h-8 border-2 border-black rounded-md m-1 flex justify-center items-center cell"
+        [ngClass]="letter.className">{{letter.value}}
+      </div>
+    </div>
+    <div class="flex justify-center">
+      <div *ngFor="let letter of guesses.rowTwo"
+        class="w-8 h-8 border-2 border-black rounded-md m-1 flex justify-center items-center cell"
+        [ngClass]="letter.className">{{letter.value}}
+      </div>
+    </div>
+    <div class="flex justify-center">
+      <div *ngFor="let letter of guesses.rowThree"
+        class="w-8 h-8 border-2 border-black rounded-md m-1 flex justify-center items-center cell"
+        [ngClass]="letter.className">{{letter.value}}
+      </div>
+    </div>
+    <div class="flex justify-center">
+      <div *ngFor="let letter of guesses.rowFour"
+        class="w-8 h-8 border-2 border-black rounded-md m-1 flex justify-center items-center cell"
+        [ngClass]="letter.className">{{letter.value}}
+      </div>
+    </div>
+    <div class="flex justify-center">
+      <div *ngFor="let letter of guesses.rowFive"
+        class="w-8 h-8 border-2 border-black rounded-md m-1 flex justify-center items-center cell"
+        [ngClass]="letter.className">{{letter.value}}
+      </div>
+    </div>
+    <div class="flex justify-center">
+      <div *ngFor="let letter of guesses.rowSix"
+        class="w-8 h-8 border-2 border-black rounded-md m-1 flex justify-center items-center cell"
+        [ngClass]="letter.className">{{letter.value}}
+      </div>
+    </div>
   </div>
 
   <footer class="footer bg-neutral text-neutral-content p-3">
     <div class="w-full">
       <div class="flex justify-center gap-1 my-1 w-full">
-        <kbd *ngFor="let key of keyboard.firstRow" class="kbd kbd-md" [ngClass]="key.class">{{key.value}}</kbd>
+        <kbd *ngFor="let key of keyboard.firstRow; let i=index" class="kbd kbd-md" [ngClass]="key.class"
+          (click)="keyClicked(keyboard.firstRow, i)">{{key.value}}</kbd>
       </div>
       <div class="flex justify-center gap-1 my-1 w-full">
-        <kbd *ngFor="let key of keyboard.secondRow" class="kbd kbd-md" [ngClass]="key.class">{{key.value}}</kbd>
+        <kbd *ngFor="let key of keyboard.secondRow; let i=index" class="kbd kbd-md" [ngClass]="key.class"
+          (click)="keyClicked(keyboard.secondRow, i)">{{key.value}}</kbd>
       </div>
       <div class="flex justify-center gap-1 my-1 w-full">
-        <kbd *ngFor="let key of keyboard.thirdRow" class="kbd kbd-md" [ngClass]="key.class">{{key.value}}</kbd>
+        <kbd *ngFor="let key of keyboard.thirdRow; let i=index" class="kbd kbd-md" [ngClass]="key.class"
+          (click)="keyClicked(keyboard.thirdRow, i)">{{key.value}}</kbd>
       </div>
       <div class="flex justify-center gap-1 my-1 w-full">
-        <kbd class="kbd kbd-md">
+        <kbd class="kbd kbd-md" (click)="removeLetter()">
           <ion-icon name="backspace-outline"></ion-icon>
         </kbd>
-        <kbd *ngFor="let key of keyboard.fourthRow" class="kbd kbd-md" [ngClass]="key.class">{{key.value}}</kbd>
-        <kbd class="kbd kbd-md">
+        <kbd *ngFor="let key of keyboard.fourthRow; let i=index" class="kbd kbd-md" [ngClass]="key.class"
+          (click)="keyClicked(keyboard.fourthRow, i)">{{key.value}}</kbd>
+        <kbd class="kbd kbd-md" (click)="checkWord()">
           <ion-icon name="return-down-back-outline"></ion-icon>
         </kbd>
       </div>
@@ -45,6 +110,17 @@
       <div class="modal-action">
         <label for="modal-end-game" class="btn">Отмена</label>
         <button for="modal-end-game" class="btn" (click)="endGame()">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <input #congratulations type="checkbox" id="congratulations" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box">
+      <h3 class="font-bold text-lg">Поздравляем!</h3>
+      <p class="py-4">Вы угадали правильное слово!</p>
+      <div class="modal-action">
+        <label for="congratulations" class="btn">Yay!</label>
       </div>
     </div>
   </div>
