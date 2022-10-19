@@ -9,9 +9,10 @@ import { Router } from '@angular/router';
 export class GamePage implements OnInit {
   @ViewChild('noWordFound') noWordFound: ElementRef;
   @ViewChild('rowIsNotFull') rowIsNotFull: ElementRef;
-  @ViewChild('congratulations') congratulations: ElementRef;
-
   @ViewChild('noSettings') noSettings: ElementRef;
+  @ViewChild('congratulations')
+  congratulations: ElementRef;
+  @ViewChild('closeGame') closeGame: ElementRef;
   keyboard = {
     firstRow: [
       {
@@ -185,11 +186,14 @@ export class GamePage implements OnInit {
   constructor(private router: Router) {}
 
   async ngOnInit() {
+    this.fetchWords();
+  }
+
+  async ionViewWillEnter() {
+    this.restoreDefaults();
     await this.generateWord();
 
     console.log(this.currentWord);
-
-    this.fetchWords();
   }
 
   async keyClicked(row, index) {
@@ -204,6 +208,8 @@ export class GamePage implements OnInit {
 
   endGame() {
     this.router.navigate(['home']);
+
+    this.restoreDefaults();
   }
 
   removeLetter() {
@@ -228,12 +234,43 @@ export class GamePage implements OnInit {
     if (guess === this.currentWord.term) {
       await this.completeGuessRow(guess);
       this.congratulations.nativeElement.checked = true;
+      this.currentGuessRow = 'rowOne';
+      this.currentColumn = 0;
+      return;
     } else {
       await this.completeGuessRow(guess);
     }
 
     this.currentGuessRow = this.getNextGuessRow();
     this.currentColumn = 0;
+  }
+
+  settingsClicked() {
+    this.toggleAlert(this.noSettings.nativeElement);
+    return;
+  }
+
+  private async restoreDefaults() {
+    this.currentGuessRow = 'rowOne';
+    this.currentColumn = 0;
+    this.guesses = {
+      rowOne: [],
+      rowTwo: [],
+      rowThree: [],
+      rowFour: [],
+      rowFive: [],
+      rowSix: [],
+    };
+
+    for (const row in this.keyboard) {
+      if (this.keyboard.hasOwnProperty(row)) {
+        for (const key of this.keyboard[row]) {
+          key.class = 'passive';
+        }
+      }
+    }
+    this.closeGame.nativeElement.checked = false;
+    this.congratulations.nativeElement.checked = false;
   }
 
   private async completeGuessRow(guess) {

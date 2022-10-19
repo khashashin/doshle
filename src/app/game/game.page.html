@@ -4,9 +4,9 @@
       <ion-icon size="large" name="close-outline"></ion-icon>
     </label>
     <p class="text-3xl">Игра</p>
-    <label for="modal-about" class="modal-button">
+    <button class="modal-button" (click)="settingsClicked()">
       <ion-icon size="large" name="settings-outline"></ion-icon>
-    </label>
+    </button>
   </div>
 
   <div #rowIsNotFull class="toast toast-center toast-middle w-4/5 hidden">
@@ -114,7 +114,7 @@
     </div>
   </footer>
 
-  <input type="checkbox" id="modal-end-game" class="modal-toggle" />
+  <input #closeGame type="checkbox" id="modal-end-game" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box">
       <h3 class="font-bold text-lg">Закрыть игру</h3>
@@ -133,7 +133,7 @@
       <h3 class="font-bold text-lg">Поздравляем!</h3>
       <p class="py-4">Вы угадали правильное слово!</p>
       <div class="modal-action">
-        <label for="congratulations" class="btn">Yay!</label>
+        <button for="congratulations" class="btn" (click)="endGame()">Закрыть</button>
       </div>
     </div>
   </div>
