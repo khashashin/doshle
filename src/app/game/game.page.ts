@@ -13,7 +13,9 @@ export class GamePage implements OnInit {
   @ViewChild('enterWordInfo') enterWordInfo: ElementRef;
   @ViewChild('congratulations')
   congratulations: ElementRef;
-  @ViewChild('closeGame') closeGame: ElementRef;
+  @ViewChild('gameFailed') gameFailed: ElementRef;
+  @ViewChild('closeGame')
+  closeGame: ElementRef;
   keyboard = {
     firstRow: [
       {
@@ -233,6 +235,16 @@ export class GamePage implements OnInit {
     }
 
     const guess = this.guesses[this.currentGuessRow].map(e => e.value).join('');
+
+    if (
+      this.currentGuessRow === 'rowSix' &&
+      this.currentColumn === this.currentWord.term.length
+    ) {
+      await this.completeGuessRow(guess);
+      this.gameFailed.nativeElement.checked = true;
+      return;
+    }
+
     if (guess === this.currentWord.term) {
       await this.completeGuessRow(guess);
       this.congratulations.nativeElement.checked = true;
@@ -292,6 +304,7 @@ export class GamePage implements OnInit {
     }
     this.closeGame.nativeElement.checked = false;
     this.congratulations.nativeElement.checked = false;
+    this.gameFailed.nativeElement.checked = false;
     this.enterWordInfo.nativeElement.classList.remove('hidden');
   }
 

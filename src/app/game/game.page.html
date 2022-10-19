@@ -151,7 +151,18 @@
       <!-- TODO: implement sharing functionality -->
       <!-- <p class="link" (click)="shareResult()">Поделитесь результатом</p> -->
       <div class="modal-action">
-        <button for="congratulations" class="btn" (click)="endGame()">Закрыть</button>
+        <button class="btn" (click)="endGame()">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <input #gameFailed type="checkbox" id="game-failed" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box">
+      <h3 class="font-bold text-lg">Проигрыш!</h3>
+      <p class="py-4">К сожалению вы не угадали слово!</p>
+      <div class="modal-action">
+        <button class="btn" (click)="endGame()">Попробовать заново</button>
       </div>
     </div>
   </div>
