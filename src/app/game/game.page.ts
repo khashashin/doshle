@@ -10,6 +10,7 @@ export class GamePage implements OnInit {
   @ViewChild('noWordFound') noWordFound: ElementRef;
   @ViewChild('rowIsNotFull') rowIsNotFull: ElementRef;
   @ViewChild('noSettings') noSettings: ElementRef;
+  @ViewChild('enterWordInfo') enterWordInfo: ElementRef;
   @ViewChild('congratulations')
   congratulations: ElementRef;
   @ViewChild('closeGame') closeGame: ElementRef;
@@ -197,6 +198,7 @@ export class GamePage implements OnInit {
   }
 
   async keyClicked(row, index) {
+    this.enterWordInfo.nativeElement.classList.add('hidden');
     if (await this.isCurrentGuessRowFull()) {
       return;
     } else {
@@ -290,6 +292,7 @@ export class GamePage implements OnInit {
     }
     this.closeGame.nativeElement.checked = false;
     this.congratulations.nativeElement.checked = false;
+    this.enterWordInfo.nativeElement.classList.remove('hidden');
   }
 
   private async completeGuessRow(guess) {
