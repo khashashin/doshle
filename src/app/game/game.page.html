@@ -129,9 +129,11 @@
 
   <input #congratulations type="checkbox" id="congratulations" class="modal-toggle" />
   <div class="modal">
-    <div class="modal-box">
+    <div class="modal-box text-center">
       <h3 class="font-bold text-lg">Поздравляем!</h3>
       <p class="py-4">Вы угадали правильное слово!</p>
+      <!-- TODO: implement sharing functionality -->
+      <!-- <p class="link" (click)="shareResult()">Поделитесь результатом</p> -->
       <div class="modal-action">
         <button for="congratulations" class="btn" (click)="endGame()">Закрыть</button>
       </div>

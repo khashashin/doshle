@@ -250,6 +250,25 @@ export class GamePage implements OnInit {
     return;
   }
 
+  // TODO: complete this method
+  async shareResult() {
+    // generate base64 image from canvas
+    const width = 500;
+    const height = 500;
+    const bitmap = await this.generateBitmap(width, height);
+  }
+
+  // TODO: complete this method
+  private async generateBitmap(width, height) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = width;
+    canvas.height = height;
+
+    ctx.fillStyle = '#1e151d';
+    ctx.fillRect(0, 0, width, height);
+  }
+
   private async restoreDefaults() {
     this.currentGuessRow = 'rowOne';
     this.currentColumn = 0;
