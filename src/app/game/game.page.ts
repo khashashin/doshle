@@ -9,7 +9,10 @@ import { Router } from '@angular/router';
 export class GamePage implements OnInit {
   @ViewChild('noWordFound') noWordFound: ElementRef;
   @ViewChild('rowIsNotFull') rowIsNotFull: ElementRef;
-  @ViewChild('noSettings') noSettings: ElementRef;
+  @ViewChild('hintOnlyOnce') hintOnlyOnce: ElementRef;
+  @ViewChild('noHintForLastRow') noHintForLastRow: ElementRef;
+  @ViewChild('noSettings')
+  noSettings: ElementRef;
   @ViewChild('enterWordInfo') enterWordInfo: ElementRef;
   @ViewChild('congratulations')
   congratulations: ElementRef;
@@ -183,8 +186,11 @@ export class GamePage implements OnInit {
   };
 
   currentWord: any;
+  currentWordIndex = null;
   currentGuessRow = 'rowOne';
   currentColumn = 0;
+
+  isHelpUsed = false;
 
   constructor(private router: Router) {}
 
@@ -264,6 +270,31 @@ export class GamePage implements OnInit {
     return;
   }
 
+  async help() {
+    if (this.isHelpUsed) {
+      this.toggleAlert(this.hintOnlyOnce.nativeElement);
+      return;
+    }
+
+    if (this.currentGuessRow === 'rowSix') {
+      this.toggleAlert(this.noHintForLastRow.nativeElement);
+      return;
+    }
+
+    this.isHelpUsed = true;
+
+    const hintWord = await this.getHintWord();
+
+    if (hintWord) {
+      for (const letter in hintWord) {
+        if (hintWord.hasOwnProperty(letter)) {
+          this.guesses[this.currentGuessRow][letter].value = hintWord[letter];
+        }
+      }
+      await this.completeGuessRow(hintWord);
+    }
+  }
+
   // TODO: complete this method
   async shareResult() {
     // generate base64 image from canvas
@@ -283,7 +314,22 @@ export class GamePage implements OnInit {
     ctx.fillRect(0, 0, width, height);
   }
 
+  private async getHintWord() {
+    const randomIndex = this.generateRandomNumber();
+    const hintWord = this.words[randomIndex];
+    if (
+      hintWord === this.currentWord ||
+      hintWord.length !== this.currentWord.term.length
+    ) {
+      return this.getHintWord();
+    }
+
+    return hintWord;
+  }
+
   private async restoreDefaults() {
+    this.currentWordIndex = null;
+    this.isHelpUsed = false;
     this.currentGuessRow = 'rowOne';
     this.currentColumn = 0;
     this.guesses = {
@@ -365,10 +411,6 @@ export class GamePage implements OnInit {
     }
   }
 
-  private async changeCellStyle(row, col, className) {
-    this.guesses[row][col].class = className;
-  }
-
   private toggleAlert(element) {
     element.classList.add('flex');
     element.classList.remove('hidden');
@@ -432,10 +474,10 @@ export class GamePage implements OnInit {
   }
 
   private async generateWord() {
-    const key = this.generateRandomNumber();
+    this.currentWordIndex = this.generateRandomNumber();
     await fetch('assets/data_transl.json').then(async response => {
       await response.json().then(data => {
-        this.currentWord = data[key];
+        this.currentWord = data[this.currentWordIndex];
         for (const l of this.currentWord.term) {
           this.guesses.rowOne.push({
             value: '',
