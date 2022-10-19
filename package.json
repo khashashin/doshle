@@ -23,6 +23,7 @@
     "@capacitor/core": "4.3.0",
     "@capacitor/haptics": "4.0.1",
     "@ionic/angular": "^6.1.9",
+    "@ionic/storage-angular": "^3.0.6",
     "daisyui": "^2.31.0",
     "ionicons": "^6.0.3",
     "rxjs": "~6.6.0",
