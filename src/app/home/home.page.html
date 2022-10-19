@@ -19,7 +19,7 @@
         </div>
         <button class="btn btn-primary" [routerLink]="['/game']">Старт</button>
         <div class="mt-10">
-          <select (change)="selectTheme($event.target.value)" class="select w-full max-w-xs">
+          <select (change)="selectTheme($event)" class="select w-full max-w-xs">
             <option disabled selected>Изменить тему игры</option>
             <option value="coffee">Coffe</option>
             <option value="lemonade">Lemonade</option>
