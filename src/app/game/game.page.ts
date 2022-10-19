@@ -224,6 +224,12 @@ export class GamePage implements OnInit {
         this.selectTheme('coffe');
       }
     });
+
+    this.storageService.get('hint').then(hint => {
+      if (hint) {
+        this.enterWordInfo.nativeElement.classList.add('hidden');
+      }
+    });
   }
 
   selectTheme($e: any) {
@@ -322,6 +328,11 @@ export class GamePage implements OnInit {
       this.currentGuessRow = this.getNextGuessRow();
       this.currentColumn = 0;
     }
+  }
+
+  closeHintToast() {
+    this.enterWordInfo.nativeElement.classList.add('hidden');
+    this.storageService.set('hint', true);
   }
 
   // TODO: complete this method
