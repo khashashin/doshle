@@ -24,7 +24,8 @@ export class HomePage {
     });
   }
 
-  selectTheme(theme: string) {
+  selectTheme($e: any) {
+    const theme = $e.target ? $e.target.value : $e;
     this.renderer.setAttribute(this.document.body, 'data-theme', theme);
     this.storageService.set('theme', theme);
   }
