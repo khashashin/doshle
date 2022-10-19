@@ -170,7 +170,7 @@ export class GamePage implements OnInit {
 
   wrongLetterClass = 'btn-active btn-ghost';
   wrongPositionClass = 'btn-active btn-primary';
-  correctLetterClass = 'btn-success';
+  correctLetterClass = 'bg-green-800';
 
   correctCellClass = 'correct';
   incorrectCellClass = 'incorrect';
@@ -292,6 +292,7 @@ export class GamePage implements OnInit {
         }
       }
       await this.completeGuessRow(hintWord);
+      this.currentGuessRow = this.getNextGuessRow();
     }
   }
 
