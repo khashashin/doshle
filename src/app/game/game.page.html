@@ -157,9 +157,9 @@
   </div>
 
   <footer class="footer bg-neutral text-neutral-content p-3">
-    <div class="w-full" [ngClass]="[isGameFinished ? 'place-items-center' : '']">
-      <button class="btn no-animation" *ngIf="isGameFinished" [ngClass]="[isGameFinished ? 'self-center absolute' : '']"
-        (click)="restart()">Играть снова</button>
+    <div class="w-full" [ngClass]="[isGameFinished ? 'flex flex-col justify-center items-center' : '']">
+      <button class="btn no-animation absolute" *ngIf="isGameFinished" (click)="restart()">Играть
+        снова</button>
       <div class="flex justify-center gap-1 my-0.5 w-full">
         <kbd *ngFor="let key of keyboard.firstRow; let i=index" class="kbd kbd-md"
           [ngClass]="[key.class, key.disable ? 'btn-disabled' : '']"
