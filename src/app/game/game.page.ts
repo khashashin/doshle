@@ -297,6 +297,7 @@ export class GamePage implements OnInit {
 
   endGame() {
     this.congratulations.nativeElement.checked = false;
+    this.gameFailed.nativeElement.checked = false;
     this.isGameFinished = true;
     for (const row in this.keyboard) {
       if (this.keyboard.hasOwnProperty(row)) {
@@ -330,7 +331,8 @@ export class GamePage implements OnInit {
 
     if (
       this.currentGuessRow === 'rowSix' &&
-      this.currentColumn === this.currentWord.term.length
+      this.currentColumn === this.currentWord.term.length &&
+      guess !== this.currentWord.term
     ) {
       await this.completeGuessRow(guess);
       this.gameFailed.nativeElement.checked = true;
@@ -570,7 +572,11 @@ export class GamePage implements OnInit {
     this.closeGameModal.nativeElement.checked = false;
     this.congratulations.nativeElement.checked = false;
     this.gameFailed.nativeElement.checked = false;
-    this.enterWordInfo.nativeElement.classList.remove('hidden');
+    this.storageService.get('hint').then(hint => {
+      if (hint) {
+        this.enterWordInfo.nativeElement.classList.add('hidden');
+      }
+    });
   }
 
   private async completeGuessRow(guess) {
