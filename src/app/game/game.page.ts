@@ -266,8 +266,6 @@ export class GamePage implements OnInit {
     this.restoreDefaults();
     await this.generateWord();
 
-    console.log(this.currentWord.term);
-
     this.storageService.get('hint').then(hint => {
       if (hint) {
         this.enterWordInfo.nativeElement.classList.add('hidden');
