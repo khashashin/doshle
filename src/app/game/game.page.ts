@@ -20,11 +20,9 @@ export class GamePage implements OnInit {
   @ViewChild('rowIsNotFull') rowIsNotFull: ElementRef;
   @ViewChild('hintOnlyTwice') hintOnlyTwice: ElementRef;
   @ViewChild('noHintForLastRow') noHintForLastRow: ElementRef;
-  @ViewChild('noSettings')
-  noSettings: ElementRef;
+  @ViewChild('noSettings') noSettings: ElementRef;
   @ViewChild('enterWordInfo') enterWordInfo: ElementRef;
-  @ViewChild('congratulations')
-  congratulations: ElementRef;
+  @ViewChild('congratulations') congratulations: ElementRef;
   @ViewChild('gameFailed') gameFailed: ElementRef;
   @ViewChild('closeGame')
   closeGame: ElementRef;
@@ -33,150 +31,186 @@ export class GamePage implements OnInit {
       {
         value: 'й',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'ц',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'у',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'к',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'е',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'н',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'г',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'ш',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'щ',
         class: 'passive',
+        disable: false,
       },
     ],
     secondRow: [
       {
         value: 'з',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'х',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'Ӏ',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'ф',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'ы',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'в',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'а',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'п',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'р',
         class: 'passive',
+        disable: false,
       },
     ],
     thirdRow: [
       {
         value: 'о',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'л',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'д',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'ж',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'э',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'ё',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'я',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'ч',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'с',
         class: 'passive',
+        disable: false,
       },
     ],
     fourthRow: [
       {
         value: 'м',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'и',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'т',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'ь',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'ъ',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'б',
         class: 'passive',
+        disable: false,
       },
       {
         value: 'ю',
         class: 'passive',
+        disable: false,
       },
     ],
   };
 
   words = [];
   hintWords = [];
+
+  isGameFinished = false;
 
   wrongLetterClass = 'bg-gray-500';
   wrongPositionClass = 'bg-orange-500';
@@ -335,6 +369,12 @@ export class GamePage implements OnInit {
     this.storageService.set('hint', true);
   }
 
+  restart() {
+    this.restoreDefaults();
+    this.router.navigate(['home']).then(() => {
+      this.router.navigate(['game']);
+    });
+  }
   // TODO: complete this method
   async shareResult() {
     // generate base64 image from canvas
@@ -371,6 +411,7 @@ export class GamePage implements OnInit {
 
   private async restoreDefaults() {
     this.hintWords = [];
+    this.isGameFinished = false;
     this.currentWordIndex = null;
     this.isHelpUsed = 2;
     this.currentGuessRow = 'rowOne';
@@ -388,6 +429,7 @@ export class GamePage implements OnInit {
       if (this.keyboard.hasOwnProperty(row)) {
         for (const key of this.keyboard[row]) {
           key.class = 'passive';
+          key.disable = false;
         }
       }
     }
