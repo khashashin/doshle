@@ -22,6 +22,19 @@
     </div>
   </div>
 
+  <div #noInfoToDisplayAlert class="toast toast-center toast-middle w-4/5 z-10 hidden">
+    <div class="alert alert-error shadow-lg">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Вы не ввели слово.</span>
+      </div>
+    </div>
+  </div>
+
   <div #noWordFound class="toast toast-center toast-middle w-4/5 z-10 hidden">
     <div class="alert alert-error shadow-lg">
       <div>
@@ -137,6 +150,9 @@
       <button class="modal-button mx-1" (click)="openGiveUpModal()" *ngIf="!isGameFinished">
         <ion-icon size="large" name="mail-open-outline"></ion-icon>
       </button>
+      <button class="modal-button mx-1" (click)="openInfoModal()">
+        <ion-icon size="large" name="book-outline"></ion-icon>
+      </button>
     </div>
   </div>
 
@@ -221,5 +237,33 @@
       </div>
     </div>
   </div>
+
+  <input #wordsTranslationModal type="checkbox" id="words-translation" class="modal-toggle"
+    (change)="restoreDictionary()" />
+  <label for="words-translation" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box">
+      <h3 class="font-bold text-lg">Значение введенных слов</h3>
+      <label for="words-translation" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+      <div class="flex flex-col w-full">
+        <ng-container *ngFor="let translation of hintAndGuessWords; let i = index">
+          <h4 [innerHTML]="getWordFromHintAndGuessWords(translation)" class="text-xl"></h4>
+          <ng-container *ngFor="let book of Object.keys(translation)">
+            <div class="flex flex-col">
+              <h6 [innerHTML]="getDictionaryName(book)" class="font-bold"></h6>
+              <ng-container *ngFor="let variant of translation[book]">
+                <div class="flex">
+                  <span class="text-sm" [innerHTML]="variant.word + ' - ' + variant.translate"></span>
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+          <div class="divider" *ngIf="i < hintAndGuessWords.length"></div>
+        </ng-container>
+      </div>
+      <div class="modal-action">
+        <label for="words-translation" class="btn">Закрыть</label>
+      </div>
+    </div>
+  </label>
 
 </ion-content>

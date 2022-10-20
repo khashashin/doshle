@@ -26,6 +26,11 @@ export class GamePage implements OnInit {
   @ViewChild('gameFailed') gameFailed: ElementRef;
   @ViewChild('closeGameModal') closeGameModal: ElementRef;
   @ViewChild('giveUpModal') giveUpModal: ElementRef;
+  @ViewChild('noInfoToDisplayAlert') noInfoToDisplayAlert: ElementRef;
+  @ViewChild('wordsTranslationModal') wordsTranslationModal: ElementRef;
+
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  Object = Object;
   keyboard = {
     firstRow: [
       {
@@ -209,6 +214,8 @@ export class GamePage implements OnInit {
 
   words = [];
   hintWords = [];
+  guessWords = [];
+  hintAndGuessWords = [];
 
   isGameFinished = false;
 
@@ -415,6 +422,93 @@ export class GamePage implements OnInit {
       this.router.navigate(['game']);
     });
   }
+
+  async openInfoModal() {
+    if (this.guessWords.length === 0 && this.hintWords.length === 0) {
+      this.toggleAlert(this.noInfoToDisplayAlert.nativeElement);
+      return;
+    }
+
+    const db = await fetch('assets/data_transl.json').then(response =>
+      response.json()
+    );
+
+    for (const word of this.guessWords) {
+      for (const key in db) {
+        if (db.hasOwnProperty(key)) {
+          if (db[key].term === word) {
+            this.hintAndGuessWords.push(db[key].translation);
+            break;
+          }
+        }
+      }
+    }
+
+    for (const word of this.hintWords) {
+      for (const key in db) {
+        if (db.hasOwnProperty(key)) {
+          if (db[key].term === word) {
+            this.hintAndGuessWords.push(db[key].translation);
+            break;
+          }
+        }
+      }
+    }
+
+    if (this.isGameFinished) {
+      this.hintAndGuessWords.push(this.currentWord.translation);
+    }
+
+    this.wordsTranslationModal.nativeElement.checked = true;
+  }
+
+  getWordFromHintAndGuessWords(translation) {
+    for (const key in translation) {
+      if (translation.hasOwnProperty(key)) {
+        return translation[key][0].word;
+      }
+    }
+  }
+
+  restoreDictionary() {
+    if (this.wordsTranslationModal.nativeElement.checked) {
+      return;
+    } else {
+      this.hintAndGuessWords = [];
+    }
+  }
+
+  getDictionaryName(key) {
+    switch (key) {
+      case 'maciev_ce_ru':
+        return '<nobr>Мациев А.Г.</nobr> <nobr>Чеченско-русский</nobr> словарь';
+      case 'karasaev_maciev_ru_ce':
+        return '<nobr>Карасаев А.Т.,</nobr> <nobr>Мациев А.Г.</nobr> <nobr>Русско-чеченский</nobr> словарь';
+      case 'umarhadjiev_ahmatukaev_ce_ru_ru_ce':
+        // eslint-disable-next-line max-len
+        return '<nobr>Умархаджиев С.М.,</nobr> <nobr>Ахматукаев А.А.</nobr> <nobr>Чеченско-русский</nobr> <nobr>русско-чеченский</nobr> словарь математических терминов';
+      case 'abdurashidov_ce_ru_ru_ce':
+        return '<nobr>Абдурашидов Э.Д.</nobr> <nobr>Чеченско-русский</nobr> <nobr>русско-чеченский</nobr> словарь юридических терминов';
+      case 'ce_ru_anatomy':
+        return '<nobr>Берсанов Р.У.</nobr> <nobr>Чеченско-русский</nobr> словарь анатомии человека';
+      case 'ru_ce_anatomy':
+        return '<nobr>Берсанов Р.У.</nobr> <nobr>Русско-чеченский</nobr> словарь анатомии человека';
+      case 'ru_ce_ce_ru_computer':
+        // eslint-disable-next-line max-len
+        return '<nobr>Умархаджиев С.М.,</nobr> <nobr>Асхабов Х.И.,</nobr> <nobr>Бадаева А.С.,</nobr> <nobr>Вагапов А.Д.,</nobr> <nobr>Израилова Э.С.,</nobr> <nobr>Султанов З.А.,</nobr> <nobr>Астемиров А.В.</nobr>  <nobr>Русско-чеченский</nobr> <nobr>чеченско-русский</nobr> словарь компьютерной лексики';
+      case 'baisultanov_ce_ru':
+        return '<nobr>Байсултанов Д.Б.</nobr> <nobr>Чеченско-русский</nobr> словарь';
+      case 'ismailov_ce_ru':
+        return '<nobr>Исмаилов А.</nobr> <nobr>Чеченско-русский</nobr> словарь';
+      case 'ismailov_ru_ce':
+        return '<nobr>Исмаилов А.</nobr> <nobr>Русско-чеченский</nobr> словарь';
+      case 'aslahanov_ru_ce':
+        return '<nobr>Аслаханов С-А.М.</nobr> <nobr>Русско-чеченский</nobr> словарь спортивных терминов и словосочетаний';
+      default:
+        return 'Неизвестный словарь';
+    }
+  }
+
   // TODO: complete this method
   async shareResult() {
     // generate base64 image from canvas
@@ -451,6 +545,8 @@ export class GamePage implements OnInit {
 
   private async restoreDefaults() {
     this.hintWords = [];
+    this.guessWords = [];
+    this.hintAndGuessWords = [];
     this.isGameFinished = false;
     this.currentWordIndex = null;
     this.isHelpUsed = 2;
