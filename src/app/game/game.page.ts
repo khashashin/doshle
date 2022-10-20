@@ -351,6 +351,7 @@ export class GamePage implements OnInit {
 
     this.currentGuessRow = this.getNextGuessRow();
     this.currentColumn = 0;
+    this.guessWords.push(guess);
   }
 
   settingsClicked() {
