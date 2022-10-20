@@ -131,8 +131,11 @@
       </div>
     </div>
     <div class="flex justify-center mt-10">
-      <button class="modal-button" (click)="help()">
+      <button class="modal-button mx-1" (click)="help()" *ngIf="!isGameFinished">
         <ion-icon size="large" name="help-buoy-outline"></ion-icon>
+      </button>
+      <button class="modal-button mx-1" (click)="openGiveUpModal()" *ngIf="!isGameFinished">
+        <ion-icon size="large" name="mail-open-outline"></ion-icon>
       </button>
     </div>
   </div>
