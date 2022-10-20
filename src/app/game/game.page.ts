@@ -24,8 +24,7 @@ export class GamePage implements OnInit {
   @ViewChild('enterWordInfo') enterWordInfo: ElementRef;
   @ViewChild('congratulations') congratulations: ElementRef;
   @ViewChild('gameFailed') gameFailed: ElementRef;
-  @ViewChild('closeGame')
-  closeGame: ElementRef;
+  @ViewChild('closeGameModal') closeGameModal: ElementRef;
   keyboard = {
     firstRow: [
       {
@@ -283,10 +282,22 @@ export class GamePage implements OnInit {
     }
   }
 
-  endGame() {
-    this.router.navigate(['home']);
-
+  closeGame() {
     this.restoreDefaults();
+    this.router.navigate(['/home']);
+  }
+
+  endGame() {
+    this.congratulations.nativeElement.checked = false;
+    this.isGameFinished = true;
+    for (const row in this.keyboard) {
+      if (this.keyboard.hasOwnProperty(row)) {
+        for (const key of this.keyboard[row]) {
+          key.class = 'passive';
+          key.disable = true;
+        }
+      }
+    }
   }
 
   removeLetter() {
@@ -433,7 +444,7 @@ export class GamePage implements OnInit {
         }
       }
     }
-    this.closeGame.nativeElement.checked = false;
+    this.closeGameModal.nativeElement.checked = false;
     this.congratulations.nativeElement.checked = false;
     this.gameFailed.nativeElement.checked = false;
     this.enterWordInfo.nativeElement.classList.remove('hidden');

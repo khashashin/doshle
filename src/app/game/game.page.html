@@ -173,7 +173,7 @@
     </div>
   </footer>
 
-  <input #closeGame type="checkbox" id="modal-end-game" class="modal-toggle" />
+  <input #closeGameModal type="checkbox" id="modal-end-game" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box">
       <h3 class="font-bold text-lg">Закрыть игру</h3>
@@ -181,7 +181,7 @@
       <p class="pb-4">Ваш прогресс будет потерян!</p>
       <div class="modal-action">
         <label for="modal-end-game" class="btn">Отмена</label>
-        <button for="modal-end-game" class="btn" (click)="endGame()">Закрыть</button>
+        <button class="btn" (click)="closeGame()">Закрыть</button>
       </div>
     </div>
   </div>
