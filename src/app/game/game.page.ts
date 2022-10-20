@@ -25,6 +25,7 @@ export class GamePage implements OnInit {
   @ViewChild('congratulations') congratulations: ElementRef;
   @ViewChild('gameFailed') gameFailed: ElementRef;
   @ViewChild('closeGameModal') closeGameModal: ElementRef;
+  @ViewChild('giveUpModal') giveUpModal: ElementRef;
   keyboard = {
     firstRow: [
       {
@@ -244,11 +245,6 @@ export class GamePage implements OnInit {
 
   async ngOnInit() {
     this.fetchWords();
-  }
-
-  async ionViewWillEnter() {
-    this.restoreDefaults();
-    await this.generateWord();
 
     this.storageService.get('theme').then(theme => {
       if (theme) {
@@ -257,6 +253,13 @@ export class GamePage implements OnInit {
         this.selectTheme('coffe');
       }
     });
+  }
+
+  async ionViewWillEnter() {
+    this.restoreDefaults();
+    await this.generateWord();
+
+    console.log(this.currentWord.term);
 
     this.storageService.get('hint').then(hint => {
       if (hint) {
@@ -378,6 +381,32 @@ export class GamePage implements OnInit {
   closeHintToast() {
     this.enterWordInfo.nativeElement.classList.add('hidden');
     this.storageService.set('hint', true);
+  }
+
+  async giveUp() {
+    for (const letter in this.currentWord.term) {
+      if (this.currentWord.term.hasOwnProperty(letter)) {
+        this.guesses[this.currentGuessRow][letter].value =
+          this.currentWord.term[letter];
+      }
+    }
+    await this.completeGuessRow(this.currentWord.term);
+    this.currentGuessRow = this.getNextGuessRow();
+    this.currentColumn = 0;
+    this.giveUpModal.nativeElement.checked = false;
+    this.isGameFinished = true;
+    for (const row in this.keyboard) {
+      if (this.keyboard.hasOwnProperty(row)) {
+        for (const key of this.keyboard[row]) {
+          key.class = 'passive';
+          key.disable = true;
+        }
+      }
+    }
+  }
+
+  openGiveUpModal() {
+    this.giveUpModal.nativeElement.checked = true;
   }
 
   restart() {

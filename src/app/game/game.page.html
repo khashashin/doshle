@@ -210,4 +210,16 @@
     </div>
   </div>
 
+  <input #giveUpModal type="checkbox" id="give-up" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box">
+      <h3 class="font-bold text-lg">Сдаться!</h3>
+      <p class="py-4">Вы сдаетесь?</p>
+      <div class="modal-action">
+        <label for="give-up" class="btn">Нет</label>
+        <button class="btn" (click)="giveUp()">Да</button>
+      </div>
+    </div>
+  </div>
+
 </ion-content>
