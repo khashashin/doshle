@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
+import { Haptics } from '@capacitor/haptics';
 
 @Component({
   selector: 'app-game',
@@ -280,6 +281,7 @@ export class GamePage implements OnInit {
   }
 
   async keyClicked(row, index) {
+    await Haptics.vibrate();
     this.enterWordInfo.nativeElement.classList.add('hidden');
     if (await this.isCurrentGuessRowFull()) {
       return;
@@ -309,7 +311,8 @@ export class GamePage implements OnInit {
     }
   }
 
-  removeLetter() {
+  async removeLetter() {
+    await Haptics.vibrate();
     if (this.currentColumn > 0) {
       this.currentColumn -= 1;
       this.guesses[this.currentGuessRow][this.currentColumn].value = '';
@@ -317,6 +320,7 @@ export class GamePage implements OnInit {
   }
 
   async checkWord() {
+    await Haptics.vibrate();
     if (!(await this.isCurrentGuessRowFull())) {
       this.toggleAlert(this.rowIsNotFull.nativeElement);
       return;
@@ -360,6 +364,7 @@ export class GamePage implements OnInit {
   }
 
   async help() {
+    await Haptics.vibrate();
     if (this.isHelpUsed === 0) {
       this.toggleAlert(this.hintOnlyTwice.nativeElement);
       return;
@@ -413,7 +418,8 @@ export class GamePage implements OnInit {
     }
   }
 
-  openGiveUpModal() {
+  async openGiveUpModal() {
+    await Haptics.vibrate();
     this.giveUpModal.nativeElement.checked = true;
   }
 
@@ -425,6 +431,7 @@ export class GamePage implements OnInit {
   }
 
   async openInfoModal() {
+    await Haptics.vibrate();
     if (this.guessWords.length === 0 && this.hintWords.length === 0) {
       this.toggleAlert(this.noInfoToDisplayAlert.nativeElement);
       return;
