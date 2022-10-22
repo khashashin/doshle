@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="absolute bottom-0">
-        <p>Версия: {{version}}</p>
+        <p (click)="displayLog()">Версия: {{version}}</p>
       </div>
     </div>
   </div>
@@ -103,6 +103,19 @@
       </div>
       <div class="modal-action">
         <label for="modal-faq" class="btn">Закрыть</label>
+      </div>
+    </div>
+  </label>
+
+  <input #logModal type="checkbox" id="modal-log" class="modal-toggle" />
+  <label for="modal-log" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box">
+      <h3 class="font-bold text-lg">Log</h3>
+      <label for="modal-log" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+      <p *ngFor="let log of logs" [innerHTML]="log"></p>
+      <p *ngIf="!logs.length">Log output is empty</p>
+      <div class="modal-action">
+        <label for="modal-log" class="btn">Закрыть</label>
       </div>
     </div>
   </label>

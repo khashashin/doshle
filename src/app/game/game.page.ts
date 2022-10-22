@@ -10,6 +10,7 @@ import {
 import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
 import { Haptics } from '@capacitor/haptics';
+import { LogService } from '../services/log.service';
 
 @Component({
   selector: 'app-game',
@@ -250,7 +251,8 @@ export class GamePage implements OnInit {
     private router: Router,
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private logService: LogService
   ) {}
 
   async ngOnInit() {
@@ -287,7 +289,11 @@ export class GamePage implements OnInit {
     if (await this.isCurrentGuessRowFull()) {
       return;
     } else {
-      await Haptics.vibrate({ duration: this.vibrationDuration });
+      try {
+        await Haptics.vibrate({ duration: this.vibrationDuration });
+      } catch (error) {
+        this.logService.log(error);
+      }
       this.guesses[this.currentGuessRow][this.currentColumn].value =
         row[index].value;
       this.currentColumn += 1;
@@ -315,7 +321,11 @@ export class GamePage implements OnInit {
 
   async removeLetter() {
     if (this.currentColumn > 0) {
-      await Haptics.vibrate({ duration: this.vibrationDuration });
+      try {
+        await Haptics.vibrate({ duration: this.vibrationDuration });
+      } catch (error) {
+        this.logService.log(error);
+      }
       this.currentColumn -= 1;
       this.guesses[this.currentGuessRow][this.currentColumn].value = '';
     }
@@ -332,7 +342,11 @@ export class GamePage implements OnInit {
       return;
     }
 
-    await Haptics.vibrate({ duration: this.vibrationDuration });
+    try {
+      await Haptics.vibrate({ duration: this.vibrationDuration });
+    } catch (error) {
+      this.logService.log(error);
+    }
     const guess = this.guesses[this.currentGuessRow].map(e => e.value).join('');
 
     if (
@@ -376,7 +390,11 @@ export class GamePage implements OnInit {
       return;
     }
 
-    await Haptics.vibrate({ duration: this.vibrationDuration });
+    try {
+      await Haptics.vibrate({ duration: this.vibrationDuration });
+    } catch (error) {
+      this.logService.log(error);
+    }
     this.isHelpUsed -= 1;
 
     const hintWord = await this.getHintWord();
@@ -421,7 +439,11 @@ export class GamePage implements OnInit {
   }
 
   async openGiveUpModal() {
-    await Haptics.vibrate({ duration: this.vibrationDuration });
+    try {
+      await Haptics.vibrate({ duration: this.vibrationDuration });
+    } catch (error) {
+      this.logService.log(error);
+    }
     this.giveUpModal.nativeElement.checked = true;
   }
 
@@ -438,7 +460,11 @@ export class GamePage implements OnInit {
       return;
     }
 
-    await Haptics.vibrate({ duration: this.vibrationDuration });
+    try {
+      await Haptics.vibrate({ duration: this.vibrationDuration });
+    } catch (error) {
+      this.logService.log(error);
+    }
     const db = await fetch('assets/data_transl.json').then(response =>
       response.json()
     );
