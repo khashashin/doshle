@@ -32,7 +32,7 @@ export class GamePage implements OnInit {
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
   Object = Object;
-  vibrationDuration = 50;
+  vibrationDuration = 10;
 
   keyboard = {
     firstRow: [
