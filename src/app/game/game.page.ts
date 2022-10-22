@@ -283,11 +283,11 @@ export class GamePage implements OnInit {
   }
 
   async keyClicked(row, index) {
-    await Haptics.vibrate({ duration: this.vibrationDuration });
     this.enterWordInfo.nativeElement.classList.add('hidden');
     if (await this.isCurrentGuessRowFull()) {
       return;
     } else {
+      await Haptics.vibrate({ duration: this.vibrationDuration });
       this.guesses[this.currentGuessRow][this.currentColumn].value =
         row[index].value;
       this.currentColumn += 1;
@@ -314,15 +314,14 @@ export class GamePage implements OnInit {
   }
 
   async removeLetter() {
-    await Haptics.vibrate({ duration: this.vibrationDuration });
     if (this.currentColumn > 0) {
+      await Haptics.vibrate({ duration: this.vibrationDuration });
       this.currentColumn -= 1;
       this.guesses[this.currentGuessRow][this.currentColumn].value = '';
     }
   }
 
   async checkWord() {
-    await Haptics.vibrate({ duration: this.vibrationDuration });
     if (!(await this.isCurrentGuessRowFull())) {
       this.toggleAlert(this.rowIsNotFull.nativeElement);
       return;
@@ -333,6 +332,7 @@ export class GamePage implements OnInit {
       return;
     }
 
+    await Haptics.vibrate({ duration: this.vibrationDuration });
     const guess = this.guesses[this.currentGuessRow].map(e => e.value).join('');
 
     if (
@@ -366,7 +366,6 @@ export class GamePage implements OnInit {
   }
 
   async help() {
-    await Haptics.vibrate({ duration: this.vibrationDuration });
     if (this.isHelpUsed === 0) {
       this.toggleAlert(this.hintOnlyTwice.nativeElement);
       return;
@@ -377,6 +376,7 @@ export class GamePage implements OnInit {
       return;
     }
 
+    await Haptics.vibrate({ duration: this.vibrationDuration });
     this.isHelpUsed -= 1;
 
     const hintWord = await this.getHintWord();
@@ -433,12 +433,12 @@ export class GamePage implements OnInit {
   }
 
   async openInfoModal() {
-    await Haptics.vibrate({ duration: this.vibrationDuration });
     if (this.guessWords.length === 0 && this.hintWords.length === 0) {
       this.toggleAlert(this.noInfoToDisplayAlert.nativeElement);
       return;
     }
 
+    await Haptics.vibrate({ duration: this.vibrationDuration });
     const db = await fetch('assets/data_transl.json').then(response =>
       response.json()
     );
