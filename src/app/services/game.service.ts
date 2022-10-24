@@ -17,8 +17,6 @@ export class GameService {
     const matrix = await this.generateMatrix(guesses);
     const ctx = canvas.getContext('2d');
 
-    console.log(matrix);
-
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, 440, 440);
 

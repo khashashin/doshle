@@ -560,7 +560,7 @@ export class GamePage implements OnInit {
 
     // create file from base64 string
     const blob = await (await fetch(image)).blob();
-    const file = new File([blob], 'fileName.png', { type: blob.type });
+    const file = new File([blob], 'assets/fileName.png', { type: blob.type });
 
     if (
       this.platform.is('pwa') ||
@@ -569,7 +569,7 @@ export class GamePage implements OnInit {
     ) {
       navigator
         .share({
-          title: 'Угадай слово',
+          title: 'Угадай чеченское слово',
           text: 'Попробуй разгадать слова из игры "Дошле"!',
           url: 'https://doshle.dosham.info',
           files: [file],
@@ -579,12 +579,16 @@ export class GamePage implements OnInit {
           this.logService.log(error);
         });
     } else {
-      this.socialSharing.share(
-        'Попробуй разгадать слова из игры "Дошле"!',
-        'Угадай слово',
-        image,
-        'https://doshle.dosham.info'
-      );
+      const options = {
+        message: 'Попробуй разгадать слова из игры "Дошле"!',
+        subject: 'Угадай чеченское слово',
+        files: [image],
+        url: 'https://doshle.dosham.info',
+      };
+      this.socialSharing.shareWithOptions(options).catch(error => {
+        this.toggleAlert(this.functionNotSupported.nativeElement);
+        this.logService.log(error);
+      });
     }
   }
 
