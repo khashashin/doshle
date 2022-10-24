@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
 import { Haptics } from '@capacitor/haptics';
 import { LogService } from '../services/log.service';
+import { GameService } from '../services/game.service';
+import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-game',
@@ -30,6 +33,8 @@ export class GamePage implements OnInit {
   @ViewChild('giveUpModal') giveUpModal: ElementRef;
   @ViewChild('noInfoToDisplayAlert') noInfoToDisplayAlert: ElementRef;
   @ViewChild('wordsTranslationModal') wordsTranslationModal: ElementRef;
+  @ViewChild('shareImage') shareImage: ElementRef;
+  @ViewChild('functionNotSupported') functionNotSupported: ElementRef;
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
   Object = Object;
@@ -252,19 +257,21 @@ export class GamePage implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
     private storageService: StorageService,
-    private logService: LogService
+    private logService: LogService,
+    private gameService: GameService,
+    private socialSharing: SocialSharing,
+    private platform: Platform
   ) {}
 
   async ngOnInit() {
     this.fetchWords();
 
-    this.storageService.get('theme').then(theme => {
-      if (theme) {
-        this.selectTheme(theme);
-      } else {
-        this.selectTheme('coffe');
-      }
-    });
+    const theme = await this.storageService.get('theme');
+    if (theme) {
+      this.selectTheme(theme);
+    } else {
+      this.selectTheme('coffe');
+    }
   }
 
   async ionViewWillEnter() {
@@ -545,23 +552,40 @@ export class GamePage implements OnInit {
     }
   }
 
-  // TODO: complete this method
   async shareResult() {
-    // generate base64 image from canvas
-    const width = 500;
-    const height = 500;
-    const bitmap = await this.generateBitmap(width, height);
-  }
+    const image = await this.gameService.getShareImageFromResult(
+      this.shareImage.nativeElement,
+      this.guesses
+    );
 
-  // TODO: complete this method
-  private async generateBitmap(width, height) {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = width;
-    canvas.height = height;
+    // create file from base64 string
+    const blob = await (await fetch(image)).blob();
+    const file = new File([blob], 'fileName.png', { type: blob.type });
 
-    ctx.fillStyle = '#1e151d';
-    ctx.fillRect(0, 0, width, height);
+    if (
+      this.platform.is('pwa') ||
+      this.platform.is('mobileweb') ||
+      this.platform.is('desktop')
+    ) {
+      navigator
+        .share({
+          title: 'Угадай слово',
+          text: 'Попробуй разгадать слова из игры "Дошле"!',
+          url: 'https://doshle.dosham.info',
+          files: [file],
+        })
+        .catch(error => {
+          this.toggleAlert(this.functionNotSupported.nativeElement);
+          this.logService.log(error);
+        });
+    } else {
+      this.socialSharing.share(
+        'Попробуй разгадать слова из игры "Дошле"!',
+        'Угадай слово',
+        image,
+        'https://doshle.dosham.info'
+      );
+    }
   }
 
   private async getHintWord() {

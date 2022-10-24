@@ -22,6 +22,19 @@
     </div>
   </div>
 
+  <div #functionNotSupported class="toast toast-center toast-middle w-4/5 z-10 hidden">
+    <div class="alert alert-error shadow-lg">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Данная функция не поддерживается на вашем устройстве.</span>
+      </div>
+    </div>
+  </div>
+
   <div #noInfoToDisplayAlert class="toast toast-center toast-middle w-4/5 z-10 hidden">
     <div class="alert alert-error shadow-lg">
       <div>
@@ -154,6 +167,9 @@
         <ion-icon size="large" name="book-outline"></ion-icon>
       </button>
     </div>
+    <div *ngIf="isGameFinished" class="flex justify-center mt-10">
+      <p class="link" (click)="shareResult()">Поделитесь результатом</p>
+    </div>
   </div>
 
   <footer class="footer bg-neutral text-neutral-content p-3">
@@ -189,6 +205,8 @@
     </div>
   </footer>
 
+  <canvas #shareImage class="hidden" width="440" height="440"></canvas>
+
   <input #closeGameModal type="checkbox" id="modal-end-game" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box">
@@ -207,8 +225,7 @@
     <div class="modal-box text-center">
       <h3 class="font-bold text-lg">Поздравляем!</h3>
       <p class="py-4">Вы угадали правильное слово!</p>
-      <!-- TODO: implement sharing functionality -->
-      <!-- <p class="link" (click)="shareResult()">Поделитесь результатом</p> -->
+      <p class="link" (click)="shareResult()">Поделитесь результатом</p>
       <div class="modal-action">
         <button class="btn" (click)="endGame()">Закрыть</button>
       </div>
