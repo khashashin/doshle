@@ -596,7 +596,7 @@ export class GamePage implements OnInit {
     const randomIndex = this.generateRandomNumber();
     const hintWord = this.words[randomIndex];
     if (
-      hintWord === this.currentWord ||
+      hintWord === this.currentWord.term ||
       hintWord.length !== this.currentWord.term.length ||
       this.hintWords.includes(hintWord)
     ) {
